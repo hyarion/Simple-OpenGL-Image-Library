@@ -26,7 +26,12 @@ SRCNAMES = \
 OBJ = $(addprefix $(OBJDIR)/, $(notdir $(SRCNAMES:.c=.o)))
 BIN = $(LIBDIR)/$(LIB)
 
-all: $(BIN)
+all: $(OBJDIR) $(LIBDIR) $(BIN)
+
+$(LIBDIR):
+	mkdir -p $(LIBDIR)
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
 $(BIN): $(OBJ)
 	$(DELETER) $(BIN)
@@ -36,7 +41,6 @@ $(BIN): $(OBJ)
 	@echo Done. As root, type 'make install' to install the library.
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	mkdir -p $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 
